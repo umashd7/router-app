@@ -25,7 +25,7 @@ steps:
 
 - script: |
     echo 'Creating .env file'
-    echo "REACT_APP_API_URL=${{ variables.REACT_APP_API_URL)" > $(Pipeline.Workspace)/.env
+    echo "REACT_APP_API_URL=${{ variables.REACT_APP_API_URL}}" > $(Pipeline.Workspace)/.env
     echo "REACT_APP_ENV=${{ variables.REACT_APP_ENV}}" >> $(Pipeline.Workspace)/.env
   displayName: 'Create .env File'
 
