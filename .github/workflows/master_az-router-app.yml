@@ -28,19 +28,25 @@ jobs:
           Get-ChildItem Env: | Sort-Object Name | Format-Table -AutoSize
         shell: pwsh
 
-      # Create .env file with environment variables
-      - name: Create .env file
+      # Fetch app settings from Azure App Service and create .env file
+      - name: Fetch app settings and create .env file
         run: |
-          Write-Host "Creating .env file with environment variables"
-          "REACT_APP_ENV= ${{ vars.REACT_APP_ENV }}" | Out-File -FilePath .env -Encoding utf8
-          "REACT_APP_API_URL=${{vars.REACT_APP_API_URL}}" | Out-File -FilePath .env -Encoding utf8 -Append
+          $resourceGroupName = 'Umash_AZ'
+          $appName = 'az-router-app'
+          $appSettings = az webapp config appsettings list --resource-group $resourceGroupName --name $appName | ConvertFrom-Json
+          $envContent = ""
+          foreach ($setting in $appSettings) {
+              $envContent += "$($setting.name)=$($setting.value)`n"
+          }
+          $envContent | Out-File -FilePath .env -Encoding utf8
+          Write-Host "Created .env file with environment variables"
         shell: pwsh
-
-      # Print the contents of the .env file (Optional for Debugging)
+      
+        # Print the contents of the .env file for verification
       - name: Print .env file
         run: Get-Content .env
         shell: pwsh
-      
+
       - name: npm install, build
         run: |
           npm cache clean --force
