@@ -10,12 +10,15 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: NodeTool@0
+- task: UseNode@1
   inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+    version: '16.x'
+  displayName: 'Use Node.js 16.x'
 
 - script: |
+    npm cache clean --force
+    rm -rf node_modules
+    npm install
     npm install
     npm run build
   displayName: 'npm install and build'
