@@ -11,9 +11,6 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-
-  
-
     steps:
       - uses: actions/checkout@v4
 
@@ -28,27 +25,12 @@ jobs:
           Get-ChildItem Env: | Sort-Object Name | Format-Table -AutoSize
         shell: pwsh
 
-      - name: Azure CLI login
-        env:
-          AZURE_CLIENT_ID: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C281D91CE57D429CAF9BAEC7C838EA95 }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET_6de6edc9-3702-437b-a005-7da6dc2311d2 }}
-          AZURE_TENANT_ID: ${{ secrets.AZUREAPPSERVICE_TENANTID_82B2627CABA94DB9B63B1A47DF65AEAB }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_5C27D7CA74AA48499231700AABB63B31 }}
+  
+      - name: Create .env file
         run: |
-          az login --service-principal -u $env:AZURE_CLIENT_ID -p $env:AZURE_CLIENT_SECRET --tenant $env:AZURE_TENANT_ID
-     
-      # Fetch app settings from Azure App Service and create .env file
-      - name: Fetch app settings and create .env file
-        run: |
-          $resourceGroupName = 'Umash_AZ'
-          $appName = 'az-router-app'
-          $appSettings = az webapp config appsettings list --resource-group $resourceGroupName --name $appName | ConvertFrom-Json
-          $envContent = ""
-          foreach ($setting in $appSettings) {
-              $envContent += "$($setting.name)=$($setting.value)`n"
-          }
-          $envContent | Out-File -FilePath .env -Encoding utf8
-          Write-Host "Created .env file with environment variables"
+          Write-Host "Creating .env file with environment variables"
+          "REACT_APP_ENV=${{ vars.REACT_APP_ENV }}" | Out-File -FilePath .env -Encoding utf8
+          "REACT_APP_API_URL=${{ vars.REACT_APP_API_URL }}" | Out-File -FilePath .env -Encoding utf8 -Append
         shell: pwsh
       
         # Print the contents of the .env file for verification
