@@ -25,8 +25,8 @@ steps:
 
 - script: |
     echo 'Creating .env file'
-    echo "REACT_APP_API_URL = https://clear.dev.bbc.com" >> .env
-    echo "REACT_APP_ENV=$(REACT_APP_ENV)" >> .env 
+    echo "REACT_APP_API_URL=$(REACT_APP_API_URL)" >> $(Pipeline.Workspace)/.env
+    echo "REACT_APP_ENV=$(REACT_APP_ENV)" >> $(Pipeline.Workspace)/.env
   displayName: 'Create .env File'
 
 - script: |
