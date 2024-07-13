@@ -36,7 +36,7 @@ jobs:
         run: cat .env
         shell: bash
       
-       - name: npm install, build
+      - name: npm install, build
         run: |
           npm cache clean --force
           npm install
