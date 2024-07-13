@@ -28,6 +28,13 @@ jobs:
           Get-ChildItem Env: | Sort-Object Name | Format-Table -AutoSize
         shell: pwsh
 
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C281D91CE57D429CAF9BAEC7C838EA95 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_82B2627CABA94DB9B63B1A47DF65AEAB }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_5C27D7CA74AA48499231700AABB63B31 }}
+
       # Fetch app settings from Azure App Service and create .env file
       - name: Fetch app settings and create .env file
         run: |
