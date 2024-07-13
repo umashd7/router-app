@@ -68,5 +68,5 @@ jobs:
         with:
           app-name: 'az-router-app'
           slot-name: 'Production'
-          package: .
+          package: release.zip
           
