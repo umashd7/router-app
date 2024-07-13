@@ -27,20 +27,7 @@ jobs:
           npm install
           npm run build --if-present
 
-      - script: |
-        echo 'Retrieving environment variables from Azure App Service'
-        az webapp config appsettings list --name <az-router-app> --resource-group <Umash_AZ> --query "[].{name:name, value:value}" -o tsv > env_vars.txt
-      displayName: 'Retrieve Environment Variables'
-
-      - script: |
-          echo 'Creating .env file'
-          while IFS= read -r line; do
-            var_name=$(echo $line | awk '{print $1}')
-            var_value=$(echo $line | awk '{print $2}')
-            echo "${var_name}=${var_value}" >> .env
-          done < env_vars.txt
-        displayName: 'Create .env File'
-
+     
       #Zip the build directory
       - name: zip release
         uses: TheDoctor0/zip-release@0.6.1

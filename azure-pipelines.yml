@@ -23,6 +23,20 @@ steps:
     npm run build
   displayName: 'npm install and build'
 
+ - script: |
+    echo 'Retrieving environment variables from Azure App Service'
+    az webapp config appsettings list --name <az-router-app> --resource-group <Umash_AZ> --query "[].{name:name, value:value}" -o tsv > env_vars.txt
+  displayName: 'Retrieve Environment Variables'
+
+- script: |
+    echo 'Creating .env file'
+    while IFS= read -r line; do
+      var_name=$(echo $line | awk '{print $1}')
+      var_value=$(echo $line | awk '{print $2}')
+      echo "${var_name}=${var_value}" >> .env
+    done < env_vars.txt
+  displayName: 'Create .env File'
+
 - script: |
     npm install graceful-fs
     node --max-old-space-size=4096 --max-semi-space-size=1024 node_modules/.bin/react-scripts build
