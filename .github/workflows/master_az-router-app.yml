@@ -21,12 +21,6 @@ jobs:
         with:
           node-version: '18.x'
 
-      - name: npm install, build
-        run: |
-          npm cache clean --force
-          npm install
-          npm run build --if-present
-
       # Create .env file with environment variables
       - name: Create .env file
         run: |
@@ -36,6 +30,17 @@ jobs:
             echo "$var=${!var}" >> .env
           done
         shell: bash
+
+      # Print the contents of the .env file (Optional for Debugging)
+      - name: Print .env file
+        run: cat .env
+        shell: bash
+      
+       - name: npm install, build
+        run: |
+          npm cache clean --force
+          npm install
+          npm run build --if-present
      
       #Zip the build directory
       - name: zip release
