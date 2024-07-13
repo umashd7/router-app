@@ -24,7 +24,6 @@ jobs:
       - name: npm install, build
         run: |
           npm cache clean --force
-          rm -r node_modules
           npm install
           npm run build --if-present
       
