@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - master
+    
   workflow_dispatch:
 
 jobs:
@@ -24,10 +25,10 @@ jobs:
       # Create .env file with environment variables
       - name: Create .env file
         run: |
-          Write-Host "Creating .env file with environment variables"
-          $envVars = (Get-ChildItem Env: | Where-Object { $_.Name -match '^REACT_APP_' })
-          $envVars | ForEach-Object { "$($_.Name)=$($_.Value)" } | Out-File -FilePath .env -Encoding utf8
-        shell: pwsh
+          echo "Creating .env file with environment variables"
+          echo "REACT_APP_ENV=${{ env.REACT_APP_ENV }}" > .env
+          echo "REACT_APP_API_URL=${{ env.REACT_APP_API_URL }}" >> .env
+        shell: bash
 
       # Print the contents of the .env file (Optional for Debugging)
       - name: Print .env file
