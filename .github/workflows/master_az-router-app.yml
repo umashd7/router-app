@@ -21,8 +21,10 @@ jobs:
         with:
           node-version: '18.x'
 
-      - name: npm install, build, and test
+      - name: npm install, build
         run: |
+          npm cache clean --force
+          rm -rf node_modules
           npm install
           npm run build --if-present
       
