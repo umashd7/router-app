@@ -2,19 +2,6 @@
   text-align: center;
 }
 
-
-.App-header {
-  padding-top: 3vh;
-  padding-bottom: 3vh;
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content:start ;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
 .contact-list{
   margin: 2vh 0vh 0vh 0vh;
   color: whitesmoke;
