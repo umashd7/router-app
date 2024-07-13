@@ -23,6 +23,11 @@ steps:
     npm run build
   displayName: 'npm install and build'
 
+- script: |
+    npm install graceful-fs
+    node --max-old-space-size=4096 --max-semi-space-size=1024 node_modules/.bin/react-scripts build
+  displayName: 'Build with Graceful-FS'
+
 - task: CopyFiles@2
   inputs:
     contents: 'build/**'
