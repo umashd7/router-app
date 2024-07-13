@@ -15,6 +15,7 @@ function App() {
         <Link to="/contact" >Contact</Link>
         <Link to="/account" >Account</Link>
       </nav>
+      <h1>{process.env.REACT_APP_ENV ?? "NO ENV PROVIDED"}</h1>
       <Routes>
         <Route path="/" element={<HomePage />} />
           <Route path="/account" element={<Account />}></Route>
