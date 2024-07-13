@@ -24,17 +24,15 @@ jobs:
       # Create .env file with environment variables
       - name: Create .env file
         run: |
-          echo "Creating .env file with environment variables"
-          for var in $(printenv | grep '^REACT_APP_' | awk -F= '{print $1}')
-          do
-            echo "$var=${!var}" >> .env
-          done
-        shell: bash
+          Write-Host "Creating .env file with environment variables"
+          $envVars = (Get-ChildItem Env: | Where-Object { $_.Name -match '^REACT_APP_' })
+          $envVars | ForEach-Object { "$($_.Name)=$($_.Value)" } | Out-File -FilePath .env -Encoding utf8
+        shell: pwsh
 
       # Print the contents of the .env file (Optional for Debugging)
       - name: Print .env file
-        run: cat .env
-        shell: bash
+        run: Get-Content .env
+        shell: pwsh
       
       - name: npm install, build
         run: |
