@@ -1,6 +1,6 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
-
+  
 name: Build and deploy Node.js app to Azure Web App - az-router-app
 
 on:
@@ -8,11 +8,14 @@ on:
     branches:
       - master
     
-  workflow_dispatch:
 
+    
+  workflow_dispatch:
 jobs:
   build:
     runs-on: windows-latest
+
+  
 
     steps:
       - uses: actions/checkout@v4
@@ -21,13 +24,19 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
+          
+      # Print environment variables
+      - name: Print all environment variables
+        run: |
+          Get-ChildItem Env: | Sort-Object Name | Format-Table -AutoSize
+        shell: pwsh
 
       # Create .env file with environment variables
       - name: Create .env file
         run: |
           Write-Host "Creating .env file with environment variables"
-          "REACT_APP_ENV=DEV" | Out-File -FilePath .env -Encoding utf8
-          "REACT_APP_API_URL=http://clear.dev.com" | Out-File -FilePath .env -Encoding utf8 -Append
+          "REACT_APP_ENV=$env:REACT_APP_ENV" | Out-File -FilePath .env -Encoding utf8
+          "REACT_APP_API_URL=$env:REACT_APP_API_URL" | Out-File -FilePath .env -Encoding utf8 -Append
         shell: pwsh
 
       # Print the contents of the .env file (Optional for Debugging)
