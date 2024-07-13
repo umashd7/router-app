@@ -11,9 +11,6 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-
-  
-
     steps:
       - uses: actions/checkout@v4
 
@@ -22,11 +19,6 @@ jobs:
         with:
           node-version: '18.x'
 
-      # Print the contents of the .env file (Optional for Debugging)
-      - name: Print .env file
-        run: Get-Content .env
-        shell: pwsh
-      
       - name: npm install, build
         run: |
           npm cache clean --force
